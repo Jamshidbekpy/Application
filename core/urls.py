@@ -29,6 +29,8 @@ urlpatterns = [
 urlpatterns += i18n_patterns(
     path("admin/", admin.site.urls),
     path("rosetta/", include("rosetta.urls")),
+    path("api/accounts/", include("apps.accounts.urls")),
+    path("api/application/", include("apps.application.urls"))
 )
 
 urlpatterns += swagger_urlpatterns

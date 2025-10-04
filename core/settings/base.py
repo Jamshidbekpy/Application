@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 import os
+import dj_database_url
 from ..jazzmin_conf import JAZZMIN_SETTINGS  # noqa
 from pathlib import Path
 from dotenv import load_dotenv
@@ -63,6 +64,8 @@ MODUL_APPS = [
 
 PROJECT_APPS = [
     'apps.base',
+    'apps.accounts',
+    'apps.application',
 ]
 
 
@@ -130,12 +133,12 @@ WSGI_APPLICATION = "core.wsgi.application"
 
 
 DATABASES = {
-    # "default":
-    #     dj_database_url.config(default=os.getenv("DATABASE_URL")),
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    },
+    "default":
+        dj_database_url.config(default=os.getenv("DATABASE_URL")),
+    # "default": {
+    #     "ENGINE": "django.db.backends.sqlite3",
+    #     "NAME": BASE_DIR / "db.sqlite3",
+    # },
 }
 
 
@@ -213,7 +216,16 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 10,
 }
 
-# AUTH_USER_MODEL = "accounts.User"
+AUTH_USER_MODEL = "accounts.User"
 
 CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
 CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
+
+
+
+EMAIL_BACKEND = os.getenv("EMAIL_BACKEND", "django.core.mail.backends.smtp.EmailBackend")
+EMAIL_HOST = os.getenv("EMAIL_HOST", "localhost")
+EMAIL_PORT = os.getenv("EMAIL_PORT", 25)
+EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", False)
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
